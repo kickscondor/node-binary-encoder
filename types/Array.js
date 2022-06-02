@@ -21,7 +21,7 @@ class TranscodableArray extends TranscodableType {
 		this.Varint = new Varint();
 	}
 	compiledEncoder(source_var, alloc_fn){
-		return `${this.fixed_length ? `if(source.length !== ${this.fixed_length})
+		return `${this.fixed_length ? `if(${source_var}.length !== ${this.fixed_length})
 			throw new Exceptions.MissingFields('Array does not match the fixed length of ${this.fixed_length}')`
 			: `${this.Varint.compiledEncoder(`${source_var}.length`, alloc_fn)}`}
 		for(let value of ${source_var}){
