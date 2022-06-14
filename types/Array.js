@@ -31,13 +31,14 @@ class TranscodableArray extends TranscodableType {
 	}
 	compiledDecoder(target_var, alloc_fn){
 		const tmp = (this.fixed_length ? null : alloc_fn());
+    const value = '_' + target_var.replace(/\W/g, '_')
 		return `
 		${!this.fixed_length ? `
 		${this.Varint.compiledDecoder(tmp)}
 		` : ''}
 		${target_var} = [];
-		for(let i = 0; i < ${this.fixed_length || tmp}; i++){
-			${this.type.compiledDecoder(`${target_var}[i]`, alloc_fn)}
+		for(let ${value} = 0; ${value} < ${this.fixed_length || tmp}; ${value}++){
+			${this.type.compiledDecoder(`${target_var}[${value}]`, alloc_fn)}
 		}
 		`
 	}
