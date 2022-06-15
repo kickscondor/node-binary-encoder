@@ -38,6 +38,7 @@
     "zora": "^3.0.1"
   },
   "dependencies": {
+    "buffer": "^6.0.3",
     "debug": "^4.1.1",
     "varint": "^5.0.0"
   }

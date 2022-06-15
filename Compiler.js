@@ -1,3 +1,4 @@
+const Buffer = require('buffer/').Buffer;
 const Exceptions = require('./exceptions');
 const varint = require('varint');
 
