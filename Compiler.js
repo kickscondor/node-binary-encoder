@@ -18,21 +18,23 @@ module.exports = {
 		}
 		const compiled = structure.compiledEncoder('source', alloc_tmp_var);
 		const code = `
-		(source, buffer=null, offset=0, override_alloc=null) => {
-			let position = offset;
-			let buffer_flexible = false;
-			let i = 0;
-			let tmp;
-			${custom_vars.length > 0 ? 'let '+custom_vars.join(', ')+';' : ''}
-			if(!buffer){
-				buffer = Buffer.alloc(override_alloc || ${non_alloc_size});
-				buffer_flexible = true;
-			}
-			${compiled}
-			return buffer.slice(0, position);
-		}
+    (Buffer) => {
+      return (source, buffer=null, offset=0, override_alloc=null) => {
+        let position = offset;
+        let buffer_flexible = false;
+        let i = 0;
+        let tmp;
+        ${custom_vars.length > 0 ? 'let '+custom_vars.join(', ')+';' : ''}
+        if(!buffer){
+          buffer = Buffer.alloc(override_alloc || ${non_alloc_size});
+          buffer_flexible = true;
+        }
+        ${compiled}
+        return buffer.slice(0, position);
+      }
+    }
 		`
-		return eval(code);
+		return eval(code)(Buffer);
 	},
 	/**
 	 * Compile a fast, structural decoder.
